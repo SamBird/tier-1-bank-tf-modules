@@ -10,20 +10,20 @@ The following modules are available in this repository:
 -   [gcp-vpc](): Creates a private VPC network in GCP.
 -   [gcp-organisation](): Creates an organisation and links it to a billing account in GCP.
 -   [gcp-gke](): Creates a Google Kuberentes Enginer Cluster in GCP.
--   [gcp-load-balancer](: Creates a load balancer in GCP.
+-   [gcp-load-balancer]: Creates a load balancer in GCP.
 
 ## Usage
 
 To use a module, include it in your Terraform configuration by referencing its source location in the module block. For example:
 
-    `module "vpc" {
+    module "vpc" {
       source = "github.com/your-repo/gcp-vpc"
     
       project_id = "your-project-id"
       network_name = "my-vpc-network"
       subnet_name = "my-subnet"
       subnet_cidr = "10.0.0.0/24"
-    }` 
+    } 
 
 Replace `github.com/your-repo/gcp-vpc` with the appropriate source location for the module.
 
