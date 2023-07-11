@@ -9,7 +9,7 @@ The following modules are available in this repository:
 
 -   [gcp-vpc](): Creates a private VPC network in GCP.
 -   [gcp-gke](): Creates a Google Kuberentes Enginer Cluster in GCP.
--   [gcp-project]: Creates a GCP project and associated API's.
+-   [gcp-project](): Creates a GCP project and associated API's.
 
 ## Usage
 
