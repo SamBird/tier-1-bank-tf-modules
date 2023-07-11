@@ -1,0 +1,41 @@
+pipeline {
+  agent any
+  
+  stages {
+    stage('Checkout') {
+      steps {
+        git 'https://github.com/WebGoat/WebGoat.git'
+      }
+    }
+    
+    stage('Build') {
+      steps {
+        dir('WebGoat-Server') {
+          sh 'mvn clean install -DskipTests'
+        }
+      }
+    }
+    
+    stage('Test') {
+      steps {
+        dir('WebGoat-Server') {
+          sh 'mvn test'
+        }
+      }
+    }
+    
+    stage('Build Docker Image') {
+      steps {
+        dir('WebGoat-Server') {
+          sh 'docker build -t webgoat .'
+        }
+      }
+    }
+    
+    stage('Deploy') {
+      steps {
+        // Add deployment steps here based on your requirements
+      }
+    }
+  }
+}
