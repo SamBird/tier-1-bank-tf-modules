@@ -14,6 +14,11 @@ pipeline {
           command:
           - cat
           tty: true
+        - name: npm
+          image: node:14.17.0
+          command:
+          - cat
+          tty: true
       """
     }
   }
@@ -29,6 +34,15 @@ pipeline {
       steps {
         container('maven') {
             sh 'mvn clean install -DskipTests'
+        }
+      }
+    }
+
+    stage('Synk Scan') {
+      steps {
+        container('npm') {
+          sh 'npm install -g snyk'
+          sh 'snyk test'
         }
       }
     }
