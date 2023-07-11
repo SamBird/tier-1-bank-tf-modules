@@ -1,48 +1,32 @@
 pipeline {
-  agent any
+  agent {
+    kubernetes {
+      yaml """
+      apiVersion: v1
+      kind: Pod
+      metadata:
+        labels:
+          jenkins: terraform
+      spec:
+        containers:
+        - name: terraform
+          image: hashicorp/terraform
+          command:
+          - cat
+          tty: true
+      """
+    }
+  }
   
   stages {
-    stage('Checkout') {
+    stage('Terraform') {
       steps {
-        git 'https://github.com/SamBird/tier-1-bank-tf-modules.git'
-      }
-    }
-    
-    stage('Terraform Init') {
-      steps {
-        script {
-          def tfHome = tool name: 'Terraform', type: 'org.jenkinsci.plugins.terraform.TerraformInstallation'
-          def tf = "${tfHome}/bin/terraform"
-          sh "${tf} init"
+        container('terraform') {
+          // Execute Terraform commands within the container
+          sh 'terraform init'
+          
         }
       }
     }
-    
-    // stage('Terraform Plan') {
-    //   steps {
-    //     script {
-    //       def tfHome = tool name: 'Terraform', type: 'org.jenkinsci.plugins.terraform.TerraformInstallation'
-    //       def tf = "${tfHome}/bin/terraform"
-    //       sh "${tf} plan"
-    //     }
-    //   }
-    // }
-    
-    // stage('Terraform Apply') {
-    //   steps {
-    //     script {
-    //       def tfHome = tool name: 'Terraform', type: 'org.jenkinsci.plugins.terraform.TerraformInstallation'
-    //       def tf = "${tfHome}/bin/terraform"
-    //       withCredentials([string(credentialsId: 'your-terraform-service-account-key', variable: 'GOOGLE_CREDENTIALS')]) {
-    //         sh """
-    //           echo '$GOOGLE_CREDENTIALS' > terraform-credentials.json
-    //           export GOOGLE_APPLICATION_CREDENTIALS=terraform-credentials.json
-    //           ${tf} apply -auto-approve
-    //         """
-    //       }
-    //     }
-    //   }
-    // }
-
   }
 }
