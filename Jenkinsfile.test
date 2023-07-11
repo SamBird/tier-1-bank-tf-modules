@@ -32,10 +32,10 @@ pipeline {
       }
     }
     
-    stage('Deploy') {
-      steps {
-        // Add deployment steps here based on your requirements
-      }
-    }
+    // stage('Deploy') {
+    //   steps {
+    //     // Add deployment steps here based on your requirements
+    //   }
+    // }
   }
 }
