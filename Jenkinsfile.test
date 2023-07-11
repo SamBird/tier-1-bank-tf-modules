@@ -1,8 +1,20 @@
 pipeline {
   agent {
-    docker {
-      image 'maven:3.8.4'
-      args '-v /root/.m2:/root/.m2'
+    kubernetes {
+      yaml """
+      apiVersion: v1
+      kind: Pod
+      metadata:
+        labels:
+          jenkins: maven
+      spec:
+        containers:
+        - name: maven
+          image: maven:3.8.4
+          command:
+          - cat
+          tty: true
+      """
     }
   }
 
@@ -15,27 +27,29 @@ pipeline {
     
     stage('Build') {
       steps {
-        dir('WebGoat-Server') {
-          sh 'mvn clean install -DskipTests'
+        container('maven') {
+            dir('WebGoat-Server') {
+                sh 'mvn clean install -DskipTests'
+            }
         }
       }
     }
     
-    stage('Test') {
-      steps {
-        dir('WebGoat-Server') {
-          sh 'mvn test'
-        }
-      }
-    }
+    // stage('Test') {
+    //   steps {
+    //     dir('WebGoat-Server') {
+    //       sh 'mvn test'
+    //     }
+    //   }
+    // }
     
-    stage('Build Docker Image') {
-      steps {
-        dir('WebGoat-Server') {
-          sh 'docker build -t webgoat .'
-        }
-      }
-    }
+    // stage('Build Docker Image') {
+    //   steps {
+    //     dir('WebGoat-Server') {
+    //       sh 'docker build -t webgoat .'
+    //     }
+    //   }
+    // }
     
     // stage('Deploy') {
     //   steps {
