@@ -4,7 +4,7 @@ pipeline {
   stages {
     stage('Checkout') {
       steps {
-        git 'https://github.com/your-repo-with-terraform-modules.git'
+        git 'https://github.com/SamBird/tier-1-bank-tf-modules.git'
       }
     }
     
