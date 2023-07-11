@@ -19,23 +19,23 @@ pipeline {
   }
   
   stages {
-    stage('Terraform') {
+    
+    stage('Terraform Init') {
       steps {
         container('terraform') {
           script {
-            // Execute Terraform commands within the container
-            def directories = findFiles(glob: 'gcp*')
-                for (directory in directories) {
-                if (directory.isDirectory()) {
-                    echo 'Directory for TF INIT: ' + directory
-                    sh 'terraform init'
-                }
-                }
+            def directories = sh(returnStdout: true, script: 'ls -d gcp*/').trim().split('\n')
+            for (def directory in directories) {
+              directory = directory.replace('/', '') // Remove trailing slash
+              echo "Running Terraform init in directory: $directory"
+              dir(directory) {
+                sh 'terraform init'
+              }
+            }
           }
-        
-          
         }
       }
     }
+
   }
 }
