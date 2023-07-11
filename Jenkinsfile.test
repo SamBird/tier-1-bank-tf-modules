@@ -14,11 +14,13 @@ pipeline {
           command:
           - cat
           tty: true
-        - name: npm
-          image: node:14.17.0
+        - name: docker
+          image: docker:20.10.7
           command:
           - cat
           tty: true
+          securityContext:
+            privileged: true
       """
     }
   }
@@ -30,30 +32,29 @@ pipeline {
       }
     }
     
-    stage('Build') {
-      steps {
-        container('maven') {
-            sh 'mvn clean install -DskipTests'
-        }
-      }
-    }
-
-    stage('Synk Scan') {
-      steps {
-        container('npm') {
-          sh 'npm install -g snyk'
-          sh 'snyk test'
-        }
-      }
-    }
-    
-    // stage('Test') {
+    // stage('Build') {
     //   steps {
-    //     dir('WebGoat-Server') {
-    //       sh 'mvn test'
+    //     container('maven') {
+    //         sh 'mvn clean install -DskipTests'
     //     }
     //   }
     // }
+    
+    // stage('Build') {
+    //   steps {
+    //     container('maven') {
+    //         sh 'mvn test'
+    //     }
+    //   }
+    // }
+
+    stage('Build Docker Image') {
+      steps {
+        container('docker') {
+          sh 'docker build -t webgoat .'
+        }
+      }
+    }
     
     // stage('Build Docker Image') {
     //   steps {
