@@ -9,7 +9,7 @@ The following modules are available in this repository:
 
 -   [gcp-vpc](): Creates a private VPC network in GCP.
 -   [gcp-gke](): Creates a Google Kuberentes Enginer Cluster in GCP.
--   [gcp-load-balancer]: Creates a load balancer in GCP.
+-   [gcp-project]: Creates a GCP project and associated API's.
 
 ## Usage
 
@@ -25,11 +25,5 @@ To use a module, include it in your Terraform configuration by referencing its s
     } 
 
 Refer to the individual module directories for more details on the required input variables and other configuration options.
-
-## Contributing
-
-Contributions to this repository are welcome! If you encounter any issues, have suggestions, or want to add new modules, please submit an issue or a pull request. 
-
-## Disclaimer
 
 For additional information on Terraform, refer to the [official Terraform documentation](https://www.terraform.io/docs/index.html).

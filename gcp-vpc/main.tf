@@ -68,6 +68,7 @@ resource "google_compute_subnetwork_iam_binding" "subnet_iam_binding" {
   role         = "roles/compute.networkUser"
 
   members = [
+    "serviceAccount:${each.value.project_num}@compute.iam.gserviceaccount.com",
     "serviceAccount:${each.value.project_num}@cloudservices.gserviceaccount.com",
     "serviceAccount:service-${each.value.project_num}@container-engine-robot.iam.gserviceaccount.com"
   ]

@@ -19,7 +19,8 @@ pipeline {
   }
   
   stages {
-    
+
+    // Run Terraform Init on each of the modules to ensure correcting linting
     stage('Terraform Init') {
       steps {
         container('terraform') {
@@ -33,6 +34,15 @@ pipeline {
               }
             }
           }
+        }
+      }
+    }
+
+    // Run Sonar Scan
+    stage('Terraform Module Testing') {
+      steps {
+        container('terraform') {
+            echo 'Executing Tests on TF Modules...'
         }
       }
     }
