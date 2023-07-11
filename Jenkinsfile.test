@@ -1,10 +1,15 @@
 pipeline {
-  agent any
-  
+  agent {
+    docker {
+      image 'maven:3.8.4'
+      args '-v /root/.m2:/root/.m2'
+    }
+  }
+
   stages {
     stage('Checkout') {
       steps {
-        git branch: 'main', url: 'https://github.com/WebGoat/WebGoat.git'
+        git 'https://github.com/WebGoat/WebGoat.git'
       }
     }
     
