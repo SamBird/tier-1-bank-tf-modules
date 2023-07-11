@@ -22,15 +22,16 @@ pipeline {
     stage('Terraform') {
       steps {
         container('terraform') {
-          
-          // Execute Terraform commands within the container
-          def directories = findFiles(glob: 'gcp*')
-            for (directory in directories) {
-              if (directory.isDirectory()) {
-                echo 'Directory for TF INIT: ' + directory
-                sh 'terraform init'
-              }
-            }
+          script {
+            // Execute Terraform commands within the container
+            def directories = findFiles(glob: 'gcp*')
+                for (directory in directories) {
+                if (directory.isDirectory()) {
+                    echo 'Directory for TF INIT: ' + directory
+                    sh 'terraform init'
+                }
+                }
+          }
         
           
         }
